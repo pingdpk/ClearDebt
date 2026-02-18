@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text } from "react-native";
-import HomeScreen from "./src/screens/HomeScreen";
-import { initDb } from "./src/db/database";
+import HomeScreen from "./src/presentation/HomeScreen";
+import { initSchema } from "./src/data/db/schema";
+import { seedDatabase } from "./src/data/db/seed";
 
 export default function App() {
   const [ready, setReady] = useState(false);
@@ -10,10 +11,16 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        await initDb();
+        await initSchema();
+      
+      // DEV ONLY TODO: remove
+      if (__DEV__) {
+        await seedDatabase();
+      }
+
         setReady(true);
       } catch (e: any) {
-        setError(e?.message ?? "DB init failed");
+        setError(e?.message ?? "Init failed");
       }
     })();
   }, []);
@@ -21,7 +28,7 @@ export default function App() {
   if (error) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>❌ {error}</Text>
+        <Text><center>❌ {error}</center></Text>
       </SafeAreaView>
     );
   }
