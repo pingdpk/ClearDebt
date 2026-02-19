@@ -8,6 +8,8 @@ export async function initSchema(): Promise<void> {
     CREATE TABLE IF NOT EXISTS people (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL UNIQUE,
+      phone TEXT,
+      email TEXT,
       created_at TEXT NOT NULL
     );
   `);

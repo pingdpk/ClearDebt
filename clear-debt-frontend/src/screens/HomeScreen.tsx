@@ -69,15 +69,18 @@ export default function HomeScreen(){
             renderItem={({ item }) => {
               const theyOwe = item.netCents >= 0;
               const status = theyOwe ? "They owe" : "You owe";
-              const amount = formatMoney(item.netCents, item.currency, 2);
+              const showAmount = item.txnCount > 0;
+              const amount = showAmount ? formatMoney(item.netCents, item.currency, 2) : "";
 
               return (
                 <View style={{ backgroundColor: "#FFF", borderRadius: 14, padding: 14, marginBottom: 12 }}>
                   <Text style={{ fontSize: 16, fontWeight: "700", color: "#141823" }}>{item.person}</Text>
+                  {showAmount &&
                   <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 6, alignItems: "center" }}>
                     <Text style={{ color: "#7A8296" }}>{status}</Text>
                     <Text style={{ fontSize: 18, fontWeight: "800", color: "#2050C8" }}>{amount}</Text>
                   </View>
+                  }           
                 </View>
               );
             }}

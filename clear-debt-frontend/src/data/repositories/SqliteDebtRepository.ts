@@ -9,6 +9,7 @@ export class SqliteDebtRepository implements DebtRepository {
     const rows = await db.getAllAsync<DebtSummary>(`
       SELECT
         p.name as person,
+        COUNT(t.id) as txnCount,
         COALESCE(SUM(
           CASE t.type
             WHEN 'THEY_OWE' THEN t.amount_cents
